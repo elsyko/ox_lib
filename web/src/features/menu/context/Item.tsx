@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactMarkdown from 'react-markdown';
 import { Option, ContextMenuProps } from '../../../interfaces/context';
 import { fetchNui } from '../../../utils/fetchNui';
+import SearchInput from './SearchInput';
 
 const openMenu = (id: string | undefined) => {
   fetchNui<ContextMenuProps>('openContext', { id: id, back: false });
@@ -27,7 +28,9 @@ const clickContext = (id: string) => {
 
 const Item: React.FC<{
   option: [string, Option];
-}> = ({ option }) => {
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  search?: string;
+}> = ({ option, handleChange, search }) => {
   const button = option[1];
   const buttonKey = option[0];
 
@@ -36,14 +39,14 @@ const Item: React.FC<{
       <Popover placement="right-start" trigger="hover" eventListeners={{ scroll: true }} isLazy>
         <PopoverTrigger>
           <Box
-            bg={button.disabled ? 'gray.600' : 'gray.800'}
+            bg={button.disabled ? '#25262B' : '#25262B'}
             borderRadius="md"
             h="fit-content"
             w="100%"
             p={2}
             mb={1}
-            fontFamily="Poppins"
-            fontSize="md"
+            fontFamily="Inter"
+            fontSize="sm"
             transition="300ms"
             _hover={{ bg: !button.disabled && 'gray.700' }}
             cursor={(button.disabled && 'not-allowed') || undefined}
@@ -52,15 +55,18 @@ const Item: React.FC<{
               w="100%"
               alignItems="center"
               color={button.disabled ? '#718096' : undefined}
-              onClick={() =>
+              onClick={() => {
+                if (button.type === 'search') 
+                  return;
                 !button.disabled ? (button.menu ? openMenu(button.menu) : clickContext(buttonKey)) : null
+                } 
               }
             >
               {button?.icon && (
                 <FontAwesomeIcon
                   fixedWidth
                   icon={button.icon}
-                  fontSize={20}
+                  fontSize={16}
                   style={{
                     marginRight: 10,
                     justifySelf: 'center',
@@ -70,12 +76,15 @@ const Item: React.FC<{
               )}
               <Box w="100%">
                 <Box>
-                  <Text w="100%" fontWeight="medium" color={button.disabled ? '#718096' : undefined}>
-                    <ReactMarkdown>{button.title ? button.title : buttonKey}</ReactMarkdown>
+                  <Text w="100%" fontWeight="medium" color={button.disabled ? '#b0b0b0' : undefined}>
+                    {button.type === "search" && handleChange && search !== undefined? 
+                        <SearchInput option={option} handleChange={handleChange} search={search}/> :
+                        <ReactMarkdown>{button.title ? button.title : buttonKey}</ReactMarkdown>  
+                      }
                   </Text>
                 </Box>
                 {button.description && (
-                  <Box paddingBottom={1} color={button.disabled ? '#718096' : undefined}>
+                  <Box paddingBottom={1} fontSize={12} color={button.disabled ? '#b0b0b0' : "#b0b0b0"}>
                     <Text><ReactMarkdown>{button.description}</ReactMarkdown></Text>
                   </Box>
                 )}
@@ -92,7 +101,7 @@ const Item: React.FC<{
               {(button.menu || button.arrow) && button.arrow !== false && (
                 <>
                   <Spacer />
-                  <Box alignSelf="center" justifySelf="center" mr={4} fontSize="xl">
+                  <Box alignSelf="center" justifySelf="center" mr={4} fontSize={16}>
                     <FontAwesomeIcon icon="chevron-right" />
                   </Box>
                 </>
@@ -101,8 +110,9 @@ const Item: React.FC<{
             <Portal>
               {!button.disabled && (button.metadata || button.image) && (
                 <PopoverContent
-                  fontFamily="Poppins"
-                  bg="gray.800"
+                  fontFamily="Inter"
+                  bg="#25262B"
+                  fontSize={12}
                   outline="none"
                   border="none"
                   w="fit-content"

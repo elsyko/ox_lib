@@ -17,11 +17,34 @@ const ContextMenu: React.FC = () => {
     title: '',
     options: { '': { description: '', metadata: [] } },
   });
+  const [search, setSearch] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredOptions = Object.entries(contextMenu.options).filter(
+    ([key, option]) => {
+      if (option.type === 'search' || search === '') {
+        return true;
+      } else {
+        let match = false;
+        if (option.title) {
+          match = option.title.toLowerCase().includes(search.toLowerCase());
+        }
+        if (option.description) {
+          match = match || option.description.toLowerCase().includes(search.toLowerCase());
+        }
+        return match;
+      }
+    }
+  );
 
   const closeContext = () => {
     if (contextMenu.canClose === false) return;
     setVisible(false);
     fetchNui('closeContext');
+    setSearch('');
   };
 
   // Hides the context menu on ESC
@@ -56,7 +79,7 @@ const ContextMenu: React.FC = () => {
             {contextMenu.menu && (
               <Flex
                 borderRadius="md"
-                bg="gray.800"
+                bg="#25262B"
                 flex="1 15%"
                 alignSelf="stretch"
                 textAlign="center"
@@ -71,15 +94,15 @@ const ContextMenu: React.FC = () => {
                 <FontAwesomeIcon icon="chevron-left" />
               </Flex>
             )}
-            <Box borderRadius="md" bg="gray.800" flex="1 85%">
-              <Text fontFamily="Poppins" fontSize="md" p={2} textAlign="center" fontWeight="light">
+            <Box borderRadius="md" bg="#25262B" flex="1 85%">
+              <Text fontFamily="Inter" fontSize="md" p={2} textAlign="center" fontWeight="normal">
                 <ReactMarkdown>{contextMenu.title}</ReactMarkdown>
               </Text>
             </Box>
             <Flex
               borderRadius="md"
               as="button"
-              bg={contextMenu.canClose === false ? 'gray.600' : 'gray.800'}
+              bg={contextMenu.canClose === false ? 'gray.600' : '#25262B'}
               flex="1 15%"
               alignSelf="stretch"
               textAlign="center"
@@ -100,9 +123,12 @@ const ContextMenu: React.FC = () => {
             </Flex>
           </Flex>
           <Box maxH={560} overflowY="scroll">
-            {Object.entries(contextMenu.options).map((option, index) => (
-              <Item option={option} key={`context-item-${index}`} />
-            ))}
+            {filteredOptions.map((option, index) => {
+              const isSearch = option[1].type === 'search';
+              return isSearch ? 
+                <Item option={option} key={`context-item-${index}`} handleChange={handleChange} search={search}/> : 
+                <Item option={option} key={`context-item-${index}`} />
+            })}
           </Box>
         </Box>
       </ScaleFade>

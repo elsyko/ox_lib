@@ -59,7 +59,7 @@ const AlertDialog: React.FC = () => {
         onEsc={() => closeAlert('cancel')}
       >
         <AlertDialogOverlay />
-        <AlertDialogContent fontFamily="Inter">
+        <AlertDialogContent fontFamily="Inter" bg="#25262B">
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             {dialogData.header}
           </AlertDialogHeader>

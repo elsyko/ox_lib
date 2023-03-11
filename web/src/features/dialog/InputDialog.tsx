@@ -65,12 +65,13 @@ const InputDialog: React.FC = () => {
       <Modal isOpen={visible} onClose={handleClose} isCentered closeOnEsc closeOnOverlayClick={false} size="xs">
         <ModalOverlay />
         <ModalContent
+          bg="#25262B"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && visible) return handleConfirm();
           }}
         >
           <ModalHeader textAlign="center">{fields.heading}</ModalHeader>
-          <ModalBody fontFamily="Poppins" textAlign="left">
+          <ModalBody fontFamily="Inter" textAlign="left">
             {fields.rows.map((row: IInput | ICheckbox | ISelect | INumber | ISlider, index) => (
               <React.Fragment key={`row-${index}-${row.type}-${row.label}`}>
                 {row.type === 'input' && (
