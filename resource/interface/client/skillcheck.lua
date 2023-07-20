@@ -4,11 +4,7 @@ local skillcheck
 ---@alias SkillCheckDifficulity 'easy' | 'medium' | 'hard' | { areaSize: number, speedMultiplier: number }
 
 ---@param difficulty SkillCheckDifficulity | SkillCheckDifficulity[]
-<<<<<<< HEAD
----@param inputs string[]
-=======
 ---@param inputs string[]?
->>>>>>> upstream/master
 ---@return boolean?
 function lib.skillCheck(difficulty, inputs)
     if skillcheck then return end

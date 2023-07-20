@@ -60,11 +60,7 @@ local function closeCreator(cancel)
 			points[#points + 1] = vec(xCoord, yCoord)
 		end
 
-<<<<<<< HEAD
-        ---@type string[]
-=======
         ---@type string[]?
->>>>>>> upstream/master
 		local input = lib.inputDialog(('Name your %s Zone'):format(firstToUpper(zoneType)), {
             { type = 'input', label = 'Name', placeholder = 'none' },
             { type = 'select', label = 'Format', default = format, options = {

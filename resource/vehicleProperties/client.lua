@@ -371,15 +371,7 @@ function lib.setVehicleProperties(vehicle, props)
 
     if props.tyres then
         for tyre, state in pairs(props.tyres) do
-<<<<<<< HEAD
-            if state == 1 then
-                SetVehicleTyreBurst(vehicle, tyre, false, 1000.0)
-            else
-                SetVehicleTyreBurst(vehicle, tyre, true, 1000.0)
-            end
-=======
             SetVehicleTyreBurst(vehicle, tonumber(tyre) --[[@as number]], state == 2, 1000.0)
->>>>>>> upstream/master
         end
     end
 

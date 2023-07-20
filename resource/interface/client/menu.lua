@@ -65,11 +65,7 @@ function lib.showMenu(id, startIndex)
 
     openMenu = menu
 
-<<<<<<< HEAD
-    lib.setNuiFocus(not menu.disableInput, false)
-=======
     lib.setNuiFocus(not menu.disableInput, true)
->>>>>>> upstream/master
 
     SendNUIMessage({
         action = 'setMenu',
