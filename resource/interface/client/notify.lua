@@ -1,5 +1,9 @@
 ---@alias NotificationPosition 'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left'
+<<<<<<< HEAD
 ---@alias NotificationType 'inform' | 'error' | 'success'
+=======
+---@alias NotificationType 'info' | 'warning' | 'success' | 'error'
+>>>>>>> upstream/master
 
 ---@class NotifyProps
 ---@field id? string
@@ -32,7 +36,11 @@ end
 function lib.defaultNotify(data)
     -- Backwards compat for v3 
     data.type = data.status
+<<<<<<< HEAD
     if data.type == 'info' or data.type == 'warning' then data.type = 'inform' end
+=======
+    if data.type == 'inform' then data.type = 'info' end
+>>>>>>> upstream/master
     return lib.notify(data)
 end
 

@@ -123,12 +123,18 @@ const ContextMenu: React.FC = () => {
         </Flex>
         <Box className={classes.buttonsContainer}>
           <Stack className={classes.buttonsFlexWrapper}>
+<<<<<<< HEAD
           {filteredOptions.map((option, index) => {
               const isSearch = option[1].type === 'search';
               return isSearch ? 
                 <ContextButton option={option} key={`context-item-${index}`} handleChange={handleChange} search={search}/> : 
                 <ContextButton option={option} key={`context-item-${index}`} />
             })}
+=======
+            {Object.entries(contextMenu.options).map((option, index) => (
+              <ContextButton option={option} key={`context-item-${index}`} />
+            ))}
+>>>>>>> upstream/master
           </Stack>
         </Box>
       </ScaleFade>

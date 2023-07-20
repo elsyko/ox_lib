@@ -6,7 +6,8 @@
   "types": "./client/index.d.ts",
   "main": "index.js",
   "scripts": {
-    "prepublish": "tsc"
+    "compile": "tsc",
+    "prepare": "npm run compile"
   },
   "keywords": [
     "fivem",
@@ -26,6 +27,10 @@
     "@citizenfx/client": "2.0.5885-1",
     "@citizenfx/server": "2.0.5885-1",
     "@fortawesome/fontawesome-common-types": "6.1.1",
+<<<<<<< HEAD
+=======
+    "@mantine/core": "^6.0.10",
+>>>>>>> upstream/master
     "@nativewrappers/client": "^1.7.33",
     "@types/node": "16.9.1",
     "@types/react": "^18.0.26",

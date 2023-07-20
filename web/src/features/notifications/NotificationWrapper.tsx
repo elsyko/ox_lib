@@ -2,7 +2,11 @@ import { useNuiEvent } from '../../hooks/useNuiEvent';
 import { toast, Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactMarkdown from 'react-markdown';
+<<<<<<< HEAD
 import { Avatar, createStyles, Group, Stack, Box, Text, keyframes } from '@mantine/core';
+=======
+import { Avatar, createStyles, Group, Stack, Box, Text, keyframes, Sx } from '@mantine/core';
+>>>>>>> upstream/master
 import React from 'react';
 import type { NotificationProps } from '../../typings';
 
@@ -118,9 +122,27 @@ const Notifications: React.FC = () => {
         break;
     }
     if (!data.icon) {
+<<<<<<< HEAD
       data.icon = data.type === 'error' ? 'xmark' : data.type === 'success' ? 'check' : 'info';
     }
 
+=======
+      switch (data.type) {
+        case 'error':
+          data.icon = 'circle-xmark';
+          break;
+        case 'success':
+          data.icon = 'circle-check';
+          break;
+        case 'warning':
+          data.icon = 'circle-exclamation';
+          break;
+        default:
+          data.icon = 'circle-info';
+          break;
+      }
+    }
+>>>>>>> upstream/master
     toast.custom(
       (t) => (
         <Box
@@ -138,8 +160,13 @@ const Notifications: React.FC = () => {
                     ? exitAnimationBottom
                     : exitAnimationRight
                 } 0.4s ease-in forwards`,
+<<<<<<< HEAD
           }}
           style={data.style}
+=======
+            ...data.style,
+          }}
+>>>>>>> upstream/master
           className={`${classes.container}`}
         >
           <Group noWrap spacing={12}>
@@ -147,7 +174,19 @@ const Notifications: React.FC = () => {
               <>
                 {!data.iconColor ? (
                   <Avatar
+<<<<<<< HEAD
                     color={data.type === 'error' ? 'red' : data.type === 'success' ? 'teal' : 'blue'}
+=======
+                    color={
+                      data.type === 'error'
+                        ? 'red'
+                        : data.type === 'success'
+                        ? 'teal'
+                        : data.type === 'warning'
+                        ? 'yellow'
+                        : 'blue'
+                    }
+>>>>>>> upstream/master
                     radius="xl"
                     size={32}
                   >
@@ -161,7 +200,11 @@ const Notifications: React.FC = () => {
             <Stack spacing={0}>
               {data.title && <Text className={classes.title}>{data.title}</Text>}
               {data.description && (
+<<<<<<< HEAD
                 <ReactMarkdown className={!data.title ? classes.descriptionOnly : classes.description}>
+=======
+                <ReactMarkdown className={`${!data.title ? classes.descriptionOnly : classes.description} description`}>
+>>>>>>> upstream/master
                   {data.description}
                 </ReactMarkdown>
               )}

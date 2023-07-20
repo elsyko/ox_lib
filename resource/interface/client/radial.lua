@@ -5,6 +5,10 @@
 ---@field menu? string
 ---@field onSelect? fun(currentMenu: string | nil, itemIndex: number) | string
 ---@field [string] any
+<<<<<<< HEAD
+=======
+---@field keepOpen? boolean
+>>>>>>> upstream/master
 
 ---@class RadialMenuProps
 ---@field id string
@@ -120,8 +124,12 @@ function lib.hideRadial()
         data = false
     })
 
+<<<<<<< HEAD
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(false)
+=======
+    lib.resetNuiFocus()
+>>>>>>> upstream/master
     table.wipe(menuHistory)
 
     isOpen = false
@@ -182,6 +190,19 @@ function lib.removeRadialItem(id)
     refreshRadial(id)
 end
 
+<<<<<<< HEAD
+=======
+---Removes all items from the global radial menu.
+function lib.clearRadialItems()
+    table.wipe(menuItems)
+
+    if isOpen then
+        refreshRadial()
+    end
+    
+end
+
+>>>>>>> upstream/master
 RegisterNUICallback('radialClick', function(index, cb)
     cb(1)
 
@@ -200,7 +221,11 @@ RegisterNUICallback('radialClick', function(index, cb)
     if item.menu then
         menuHistory[#menuHistory + 1] = { id = currentRadial and currentRadial.id, option = item.menu }
         showRadial(item.menu)
+<<<<<<< HEAD
     else
+=======
+    elseif not item.keepOpen then
+>>>>>>> upstream/master
         lib.hideRadial()
     end
 
@@ -256,7 +281,11 @@ RegisterNUICallback('radialClose', function(_, cb)
 
     if not isOpen then return end
 
+<<<<<<< HEAD
     SetNuiFocus(false, false)
+=======
+    lib.resetNuiFocus()
+>>>>>>> upstream/master
 
     isOpen = false
     currentRadial = nil
@@ -304,14 +333,24 @@ lib.addKeybind({
                 items = menuItems
             }
         })
+<<<<<<< HEAD
         SetNuiFocus(true, true)
         SetNuiFocusKeepInput(true)
+=======
+
+        lib.setNuiFocus(true)
+>>>>>>> upstream/master
         SetCursorLocation(0.5, 0.5)
 
         while isOpen do
             DisablePlayerFiring(cache.playerId, true)
             DisableControlAction(0, 1, true)
             DisableControlAction(0, 2, true)
+<<<<<<< HEAD
+=======
+            DisableControlAction(2, 199, true)
+            DisableControlAction(2, 200, true)
+>>>>>>> upstream/master
             Wait(0)
         end
     end,

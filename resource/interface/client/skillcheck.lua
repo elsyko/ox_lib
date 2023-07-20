@@ -4,13 +4,17 @@ local skillcheck
 ---@alias SkillCheckDifficulity 'easy' | 'medium' | 'hard' | { areaSize: number, speedMultiplier: number }
 
 ---@param difficulty SkillCheckDifficulity | SkillCheckDifficulity[]
+<<<<<<< HEAD
 ---@param inputs string[]
+=======
+---@param inputs string[]?
+>>>>>>> upstream/master
 ---@return boolean?
 function lib.skillCheck(difficulty, inputs)
     if skillcheck then return end
     skillcheck = promise:new()
 
-    SetNuiFocus(true, false)
+    lib.setNuiFocus(false, true)
     SendNUIMessage({
         action = 'startSkillCheck',
         data = {
@@ -24,9 +28,11 @@ end
 
 RegisterNUICallback('skillCheckOver', function(success, cb)
     cb(1)
+
     if skillcheck then
+        lib.resetNuiFocus()
+
         skillcheck:resolve(success)
         skillcheck = nil
-        SetNuiFocus(false, false)
     end
 end)

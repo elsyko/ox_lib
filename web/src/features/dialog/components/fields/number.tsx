@@ -15,7 +15,11 @@ const NumberField: React.FC<Props> = (props) => {
     name: `test.${props.index}.value`,
     control: props.control,
     defaultValue: props.row.default,
+<<<<<<< HEAD
     rules: { required: props.row.required },
+=======
+    rules: { required: props.row.required, min: props.row.min, max: props.row.max },
+>>>>>>> upstream/master
   });
 
   return (
