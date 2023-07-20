@@ -28,10 +28,7 @@ const useStyles = createStyles((theme, params: { position?: MenuPosition; itemCo
     left: params.position === 'bottom-left' ? 1 : undefined,
     bottom: params.position === 'bottom-left' || params.position === 'bottom-right' ? 1 : undefined,
     fontFamily: 'Roboto',
-<<<<<<< HEAD
-=======
     width: 384
->>>>>>> upstream/master
   },
   buttonsWrapper: {
     height: 'fit-content',

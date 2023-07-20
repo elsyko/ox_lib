@@ -5,10 +5,7 @@ import { Option, ContextMenuProps } from '../../../../typings';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { isIconUrl } from '../../../../utils/isIconUrl';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-<<<<<<< HEAD
 import SearchInput from './SearchInput';
-=======
->>>>>>> upstream/master
 
 const openMenu = (id: string | undefined) => {
   fetchNui<ContextMenuProps>('openContext', { id: id, back: false });
@@ -74,13 +71,9 @@ const useStyles = createStyles((theme, params: { disabled?: boolean }) => ({
 
 const ContextButton: React.FC<{
   option: [string, Option];
-<<<<<<< HEAD
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   search?: string;
 }> = ({ option, handleChange, search }) => {
-=======
-}> = ({ option }) => {
->>>>>>> upstream/master
   const button = option[1];
   const buttonKey = option[0];
   const { classes } = useStyles({ disabled: button.disabled });
@@ -95,16 +88,12 @@ const ContextButton: React.FC<{
         <HoverCard.Target>
           <Button
             classNames={{ inner: classes.inner, label: classes.label }}
-<<<<<<< HEAD
             onClick={() => {
                 if (button.type === 'search') 
                   return;
                 !button.disabled ? (button.menu ? openMenu(button.menu) : clickContext(buttonKey)) : null
               }
             }
-=======
-            onClick={() => (!button.disabled ? (button.menu ? openMenu(button.menu) : clickContext(buttonKey)) : null)}
->>>>>>> upstream/master
             variant="default"
             className={classes.button}
             disabled={button.disabled}
@@ -127,14 +116,10 @@ const ContextButton: React.FC<{
                     </Stack>
                   )}
                   <Text className={classes.buttonTitleText}>
-<<<<<<< HEAD
                     {button.type === "search" && handleChange && search !== undefined? 
                         <SearchInput option={option} handleChange={handleChange} search={search}/> :
                         <ReactMarkdown>{button.title || buttonKey}</ReactMarkdown>  
                       }
-=======
-                    <ReactMarkdown>{button.title || buttonKey}</ReactMarkdown>
->>>>>>> upstream/master
                   </Text>
                 </Group>
                 {button.description && (

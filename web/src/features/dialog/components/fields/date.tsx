@@ -14,11 +14,7 @@ const DateField: React.FC<Props> = (props) => {
   const controller = useController({
     name: `test.${props.index}.value`,
     control: props.control,
-<<<<<<< HEAD
-    rules: { required: props.row.required },
-=======
     rules: { required: props.row.required, min: props.row.min, max: props.row.max },
->>>>>>> upstream/master
   });
 
   return (

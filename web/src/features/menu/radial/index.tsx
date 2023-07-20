@@ -52,13 +52,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-<<<<<<< HEAD
-// PAGE_ITEMS + 1 = More... button
-const PAGE_ITEMS = 7;
-=======
 // includes More... button
 const PAGE_ITEMS = 8;
->>>>>>> upstream/master
 
 const degToRad = (deg: number) => deg * (Math.PI / 180);
 
@@ -85,18 +80,11 @@ const RadialMenu: React.FC = () => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (menu.items.length < PAGE_ITEMS) return setMenuItems(menu.items);
-    const items = menu.items.slice(PAGE_ITEMS * (menu.page - 1), PAGE_ITEMS * menu.page);
-    PAGE_ITEMS * menu.page < menu.items.length &&
-      items.push({ icon: 'ellipsis-h', label: locale.ui.more, isMore: true });
-=======
     if (menu.items.length <= PAGE_ITEMS) return setMenuItems(menu.items);
     const items = menu.items.slice(PAGE_ITEMS * (menu.page - 1) - (menu.page - 1), PAGE_ITEMS * menu.page - menu.page + 1);
     if (PAGE_ITEMS * menu.page - menu.page + 1 < menu.items.length) {
       items[items.length - 1] = { icon: 'ellipsis-h', label: locale.ui.more, isMore: true };
     }
->>>>>>> upstream/master
     setMenuItems(items);
   }, [menu.items, menu.page]);
 
@@ -146,11 +134,7 @@ const RadialMenu: React.FC = () => {
                     transform={`rotate(-${index * pieAngle} 175 175) translate(${sinAngle * gap}, ${cosAngle * gap})`}
                     className={classes.sector}
                     onClick={async () => {
-<<<<<<< HEAD
-                      const clickIndex = menu.page === 1 ? index : PAGE_ITEMS * (menu.page - 1) + index;
-=======
                       const clickIndex = menu.page === 1 ? index : PAGE_ITEMS * (menu.page - 1) - (menu.page - 1) + index;
->>>>>>> upstream/master
                       if (!item.isMore) fetchNui('radialClick', clickIndex);
                       else {
                         await changePage(true);
@@ -171,16 +155,11 @@ const RadialMenu: React.FC = () => {
                         height={25}
                         fixedWidth
                       />
-<<<<<<< HEAD
-                      <text x={iconX} y={iconY + 25} fill="#fff" textAnchor="middle" pointerEvents="none">
-                        {item.label}
-=======
                       <text x={iconX} y={iconY + (item.label.includes("  \n") ? 7 : 25)} fill="#fff" textAnchor="middle" pointerEvents="none">
                         {item.label.includes("  \n")
                           ? item.label.split("  \n").map((value) => <tspan x={iconX} dy="1.2em">{value}</tspan>)
                           : item.label
                         }
->>>>>>> upstream/master
                       </text>
                     </g>
                   </g>

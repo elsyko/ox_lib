@@ -9,11 +9,7 @@ export const debugRadial = () => {
         items: [
           { icon: 'palette', label: 'Paint' },
           { icon: 'warehouse', label: 'Garage' },
-<<<<<<< HEAD
-          { icon: 'palette', label: 'Quite long text' },
-=======
           { icon: 'palette', label: 'Quite long  \ntext' },
->>>>>>> upstream/master
           { icon: 'palette', label: 'Paint' },
           { icon: 'warehouse', label: 'Garage' },
         ],
