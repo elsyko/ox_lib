@@ -1,6 +1,13 @@
 {
   "language": "Italiano",
   "ui": {
+<<<<<<< HEAD
+    "cancel": "Cancel",
+    "close": "Chiudere",
+    "confirm": "Confermare",
+    "more": "More..."
+  }
+=======
     "cancel": "Annulla",
     "close": "Chiudi",
     "confirm": "Conferma",
@@ -11,4 +18,5 @@
   "txadmin_warn": "Sei stato richiamato da %s",
   "txadmin_warn_content": "%s  \nAction ID: %s",
   "txadmin_scheduledrestart": "Riavvio Programmato"
+>>>>>>> upstream/master
 }

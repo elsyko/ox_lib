@@ -37,7 +37,7 @@ const useStyles = createStyles((theme) => ({
   label: {
     position: 'absolute',
     maxWidth: 350,
-    padding: 8,
+    padding: 2,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
