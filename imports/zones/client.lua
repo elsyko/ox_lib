@@ -4,9 +4,9 @@ local glm = require 'glm'
 ---@field id number
 ---@field coords vector3
 ---@field distance number
----@field type 'poly' | 'sphere' | 'box'
+---@field __type 'poly' | 'sphere' | 'box'
 ---@field debugColour vector4?
----@field setDebug fun(self: CZone)
+---@field setDebug fun(self: CZone, enable?: boolean, colour?: vector)
 ---@field remove fun()
 ---@field contains fun(self: CZone, coords?: vector3): boolean
 ---@field onEnter fun(self: CZone)?
@@ -267,10 +267,16 @@ local function setDebug(self, bool, colour)
 
     self.debugColour = bool and vec4(colour?.r or self.debugColour?.r or 255, colour?.g or self.debugColour?.g or 42, colour?.b or self.debugColour?.b or 24, colour?.a or self.debugColour?.a or 100) or nil
 
-    if bool and self.debug or not bool and not self.debug then return end
+    if not bool and self.debug then
+        self.triangles = nil
+        self.debug = nil
+        return
+    end
 
-    self.triangles = bool and (self.type == 'poly' and getTriangles(self.polygon) or self.type == 'box' and { mat(self.polygon[1], self.polygon[2], self.polygon[3]), mat(self.polygon[1], self.polygon[3], self.polygon[4]) }) or nil
-    self.debug = bool and (self.type == 'sphere' and debugSphere or debugPoly) or nil
+    if bool and self.debug and self.debug ~= true then return end
+
+    self.triangles = self.__type == 'poly' and getTriangles(self.polygon) or self.__type == 'box' and { mat(self.polygon[1], self.polygon[2], self.polygon[3]), mat(self.polygon[1], self.polygon[3], self.polygon[4]) } or nil
+    self.debug = self.__type == 'sphere' and debugSphere or debugPoly or nil
 end
 
 lib.zones = {
@@ -340,7 +346,7 @@ lib.zones = {
         end
 
         data.coords = data.polygon:centroid()
-        data.type = 'poly'
+        data.__type = 'poly'
         data.remove = removeZone
         data.contains = contains
         data.setDebug = setDebug
@@ -370,7 +376,7 @@ lib.zones = {
             vec3(-data.size.x, -data.size.y, 0),
             vec3(data.size.x, -data.size.y, 0),
         }) + data.coords)
-        data.type = 'box'
+        data.__type = 'box'
         data.remove = removeZone
         data.contains = contains
         data.setDebug = setDebug
@@ -392,7 +398,7 @@ lib.zones = {
         data.id = #Zones + 1
         data.coords = convertToVector(data.coords)
         data.radius = (data.radius or 2) + 0.0
-        data.type = 'sphere'
+        data.__type = 'sphere'
         data.remove = removeZone
         data.contains = insideSphere
         data.setDebug = setDebug

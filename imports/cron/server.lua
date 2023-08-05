@@ -141,12 +141,21 @@ function OxTask:getNextTime()
 
     if not hour then return end
 
-    if minute >= 60 then
-        minute = 0
-        hour += 1
+    if minute >= maxUnits.min then
+        if not self.hour then
+            hour += math.floor(minute / maxUnits.min)
+        end
+
+        minute = minute % maxUnits.min
     end
 
-    if hour >= 24 and day then return end
+    if hour >= maxUnits.hour and day then
+        if not self.day then
+            day += math.floor(hour / maxUnits.hour)
+        end
+
+        hour = hour % maxUnits.hour
+    end
 
     return os.time({
         min = minute,
@@ -157,7 +166,7 @@ function OxTask:getNextTime()
     })
 end
 
--- Get timestamp for next time to run task at any day.
+---Get timestamp for next time to run task at any day.
 ---@return number
 function OxTask:getAbsoluteNextTime()
     local minute = getTimeUnit(self.minute, 'min')
@@ -213,11 +222,7 @@ function OxTask:scheduleTask()
     local sleep = runAt - currentTime
 
     if sleep < 0 then
-        if self.day or self.weekday then
-            return self:stop()
-        end
-
-        sleep += 60
+        return self:stop()
     end
 
     if self.debug then
