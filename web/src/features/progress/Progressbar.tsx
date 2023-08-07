@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 17,
     color: theme.colors.gray[1],
     textShadow: theme.shadows.sm,
-    bottom: 40
+    bottom: 45
   },
 }));
 

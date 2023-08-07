@@ -21,11 +21,8 @@ type BaseField<T, U> = {
 
 export interface IInput extends BaseField<'input', string> {
   password?: boolean;
-<<<<<<< HEAD
-=======
   min?: number;
   max?: number;
->>>>>>> upstream/master
 }
 
 export interface ICheckbox {

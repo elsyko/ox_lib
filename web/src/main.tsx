@@ -11,7 +11,7 @@ import LocaleProvider from './providers/LocaleProvider';
 import ConfigProvider from './providers/ConfigProvider';
 
 library.add(fas, far, fab);
-
+console.log(isEnvBrowser())
 if (isEnvBrowser()) {
   const root = document.getElementById('root');
 
