@@ -1,4 +1,4 @@
-import { Modal, Button, Stack, Group, useMantineTheme } from '@mantine/core';
+import { Button, createStyles, Group, Modal, Stack, useMantineTheme } from '@mantine/core';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
@@ -6,9 +6,17 @@ import { fetchNui } from '../../utils/fetchNui';
 import { useLocales } from '../../providers/LocaleProvider';
 import remarkGfm from 'remark-gfm';
 import type { AlertProps } from '../../typings';
+import MarkdownComponents from '../../config/MarkdownComponents';
+
+const useStyles = createStyles((theme) => ({
+  contentStack: {
+    color: theme.colors.dark[2],
+  },
+}));
 
 const AlertDialog: React.FC = () => {
   const { locale } = useLocales();
+  const { classes } = useStyles();
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [dialogData, setDialogData] = useState<AlertProps>({
@@ -46,12 +54,13 @@ const AlertDialog: React.FC = () => {
         overlayOpacity={0.5}
         exitTransitionDuration={150}
         transition="fade"
-        title={<ReactMarkdown>{dialogData.header}</ReactMarkdown>}
+        title={<ReactMarkdown components={MarkdownComponents}>{dialogData.header}</ReactMarkdown>}
       >
-        <Stack>
+        <Stack className={classes.contentStack}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
+              ...MarkdownComponents,
               img: ({ ...props }) => <img style={{ maxWidth: '100%', maxHeight: '100%' }} {...props} />,
             }}
           >

@@ -16,6 +16,7 @@ currentDate.sec = 0
 ---@field debug? boolean
 
 ---@class OxTask : OxTaskProperties
+---@field expression string
 ---@field private scheduleTask fun(self: OxTask): boolean?
 local OxTask = {}
 OxTask.__index = OxTask
@@ -41,22 +42,26 @@ end
 ---@return string | number | false | nil
 local function getTimeUnit(value, unit)
     local currentTime = currentDate[unit]
+
+    if not value then
+        return unit == 'min' and currentTime + 1 or currentTime
+    end
+
     local unitMax = maxUnits[unit]
 
     if type(value) == 'string' then
         local stepValue = string.match(value, '*/(%d+)')
 
         if stepValue then
+            -- */10 * * * * is equal to a list of 0,10,20,30,40,50
+            -- best suited to factors of unitMax (excluding the highest and lowest numbers)
+            -- i.e. for minutes - 2, 3, 4, 5, 6, 10, 12, 15, 20, 30
             for i = currentTime + 1, unitMax do
-                -- return the current minute if it is divisible by the stepvalue
-                -- i.e. */10 * * * * is equal to a list of 0,10,20,30,40,50
-                -- best suited to numbers evenly divided by unitMax
-                if i % stepValue == 0 then
-                    return i
-                end
+                -- if i is divisible by stepValue
+                if i % stepValue == 0 then return i end
             end
 
-            return 0
+            return stepValue + unitMax
         end
 
         local range = string.match(value, '%d+-%d+')
@@ -99,15 +104,11 @@ local function getTimeUnit(value, unit)
         return false
     end
 
-    if value then
-        if unit == 'min' then
-            return value <= currentTime and value + unitMax or value
-        end
-
-        return value < currentTime and value + unitMax or value
+    if unit == 'min' then
+        return value <= currentTime and value + unitMax or value
     end
 
-    return currentTime
+    return value < currentTime and value + unitMax or value
 end
 
 ---Get a timestamp for the next time to run the task today.
@@ -208,6 +209,10 @@ function OxTask:getAbsoluteNextTime()
     })
 end
 
+function OxTask:getTimeAsString(timestamp)
+    return os.date('%A %H:%M, %d %B %Y', timestamp or self:getAbsoluteNextTime())
+end
+
 ---@type OxTask[]
 local tasks = {}
 
@@ -215,18 +220,20 @@ function OxTask:scheduleTask()
     local runAt = self:getNextTime()
 
     if not runAt then
-        return self:stop()
+        return self:stop('getNextTime returned no value')
     end
 
     local currentTime = os.time()
     local sleep = runAt - currentTime
 
     if sleep < 0 then
-        return self:stop()
+        return self:stop(self.debug and ('scheduled time expired %s seconds ago'):format(-sleep))
     end
 
+    local timeAsString = self:getTimeAsString(runAt)
+
     if self.debug then
-        print(('running task %s in %d seconds (%0.2f minutes or %0.2f hours)'):format(self.id, sleep, sleep / 60,
+        print(('(%s) task %s will run in %d seconds (%0.2f minutes / %0.2f hours)'):format(timeAsString, self.id, sleep, sleep / 60,
             sleep / 60 / 60))
     end
 
@@ -238,11 +245,13 @@ function OxTask:scheduleTask()
     end
 
     if self.isActive then
-        self:job(currentDate)
-
         if self.debug then
-            print(('(%s/%s/%s %s:%s) ran task %s'):format(currentDate.year, currentDate.month, currentDate.day, currentDate.hour, currentDate.min, self.id))
+            print(('(%s) running task %s'):format(timeAsString, self.id))
         end
+
+        Citizen.CreateThreadNow(function()
+            self:job(currentDate)
+        end)
 
         Wait(30000)
 
@@ -261,12 +270,16 @@ function OxTask:run()
     end)
 end
 
-function OxTask:stop()
+function OxTask:stop(msg)
+    self.isActive = false
+
     if self.debug then
+        if msg then
+            return print(('stopping task %s (%s)'):format(self.id, msg))
+        end
+
         print(('stopping task %s'):format(self.id))
     end
-
-    self.isActive = false
 end
 
 ---@param value string
@@ -315,12 +328,15 @@ end
 ---Supports numbers, any value `*`, lists `1,2,3`, ranges `1-3`, and steps `*/4`.
 ---Day of the week is a range of `1-7` starting from Sunday and allows short-names (i.e. sun, mon, tue).
 function lib.cron.new(expression, job, options)
-    if not job or type(job) ~= 'function' then return end
+    if not job or type(job) ~= 'function' then
+        error(("expected job to have type 'function' (received %s)"):format(type(job)))
+    end
 
     local minute, hour, day, month, weekday = string.strsplit(' ', string.lower(expression))
     ---@type OxTask
     local task = setmetatable(options or {}, OxTask)
 
+    task.expression = expression
     task.minute = parseCron(minute, 'min')
     task.hour = parseCron(hour, 'hour')
     task.day = parseCron(day, 'day')

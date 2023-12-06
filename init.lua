@@ -7,11 +7,16 @@ if not _VERSION:find('5.4') then
     error('^1Lua 5.4 must be enabled in the resource manifest!^0', 2)
 end
 
+local resourceName = GetCurrentResourceName()
 local ox_lib = 'ox_lib'
+
+-- Some people have decided to load this file as part of ox_lib's fxmanifest?
+if resourceName == ox_lib then return end
+
 local export = exports[ox_lib]
 
-if not GetResourceState(ox_lib):find('start') then
-    error('^1ox_lib should be started before this resource.^0', 2)
+if GetResourceState(ox_lib) ~= 'started' then
+    error('^1ox_lib must be started before this resource.^0', 0)
 end
 
 local status = export.hasLoaded()
@@ -40,7 +45,7 @@ local function loadModule(self, module)
     end
 
     if chunk then
-        local fn, err = load(chunk, ('@@ox_lib/%s/%s.lua'):format(module, context))
+        local fn, err = load(chunk, ('@@ox_lib/imports/%s/%s.lua'):format(module, context))
 
         if not fn or err then
             return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
@@ -162,7 +167,7 @@ end
 ---Caches the result of a function, optionally clearing it after timeout ms.
 function cache(key, func, timeout) end
 
-cache = setmetatable({ game = GetGameName(), resource = GetCurrentResourceName() }, {
+cache = setmetatable({ game = GetGameName(), resource = resourceName }, {
     __index = context == 'client' and function(self, key)
         AddEventHandler(('ox_lib:cache:%s'):format(key), function(value)
             self[key] = value
