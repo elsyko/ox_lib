@@ -8,8 +8,9 @@ export const debugContext = () => {
       data: {
         title: 'Vehicle garage',
         options: [
-          { 
-            type: "search", 
+          {
+            type: "search",
+            title: "Search",
             placeholder: "Search...",
             icon: 'magnifying-glass',
           },

@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
   titleContainer: {
     borderRadius: 4,
     flex: '1 85%',
-    backgroundColor: theme.colors.dark[6],
+    backgroundColor: '#1e1e1ef9',
   },
   titleText: {
     color: theme.colors.dark[0],
@@ -126,8 +126,8 @@ const ContextMenu: React.FC = () => {
           <Stack className={classes.buttonsFlexWrapper}>
           {filteredOptions.map((option, index) => {
               const isSearch = option[1].type === 'search';
-              return isSearch ? 
-                <ContextButton option={option} key={`context-item-${index}`} handleChange={handleChange} search={search}/> : 
+              return isSearch ?
+                <ContextButton option={option} key={`context-item-${index}`} handleChange={handleChange} search={search}/> :
                 <ContextButton option={option} key={`context-item-${index}`} />
             })}
           </Stack>

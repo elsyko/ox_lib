@@ -9,8 +9,8 @@ const useStyles = createStyles((theme) => ({
   container: {
     width: 350,
     height: 10,
-    borderRadius: theme.radius.sm,
-    backgroundColor: theme.colors.dark[5],
+    borderRadius: 3,
+    backgroundColor: '#1e1e1ef9',
     overflow: 'hidden',
   },
   wrapper: {
@@ -44,7 +44,8 @@ const useStyles = createStyles((theme) => ({
     fontSize: 17,
     color: theme.colors.gray[1],
     textShadow: theme.shadows.sm,
-    bottom: 45
+    bottom: 45,
+    borderRadius: theme.radius.xs,
   },
 }));
 

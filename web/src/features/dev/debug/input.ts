@@ -2,6 +2,7 @@ import { debugData } from '../../../utils/debugData';
 import type { InputProps } from '../../../typings';
 
 export const debugInput = () => {
+  console.log("Debugging 'Input' component")
   debugData<InputProps>([
     {
       action: 'openDialog',

@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   backgroundCircle: {
-    fill: 'rgba(0, 0, 0, 0.7)',
+    fill: '#1e1e1ef9',
   },
   centerCircle: {
     fill: theme.fn.primaryColor(),

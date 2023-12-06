@@ -62,3 +62,11 @@ code {
 .toast-error {
   background-color: #c0392b;
 }
+
+.mantine-Modal-modal, .mantine-Button-root, .mantine-Input-input, .mantine-HoverCard-dropdown  {
+  background-color: #1e1e1ef9;
+}
+
+.mantine-Button-root:hover {
+  background-color: #262626F9;
+}

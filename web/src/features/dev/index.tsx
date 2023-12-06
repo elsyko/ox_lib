@@ -31,10 +31,13 @@ const Dev: React.FC = () => {
         </ActionIcon>
       </Tooltip>
 
-      <Drawer position="left" onClose={() => setOpened(false)} opened={opened} title="Developer drawer" padding="xl">
+      <Drawer position="left" onClose={() => setOpened(false)} opened={opened} title="Developer drawer2" padding="xl">
         <Stack>
           <Divider />
-          <Button fullWidth onClick={() => debugInput()}>
+          <Button fullWidth onClick={() => {
+            console.log("Opening input dialog");
+            debugInput()
+          }}>
             Open input dialog
           </Button>
           <Button fullWidth onClick={() => debugAlert()}>

@@ -114,7 +114,7 @@ const ContextButton: React.FC<{
                         {typeof button.icon === 'string' && isIconUrl(button.icon) ? (
                           <img src={button.icon} className={classes.iconImage} alt="Missing img" />
                         ) : (
-                          <FontAwesomeIcon
+                          <LibIcon
                             icon={button.icon as IconProp}
                             fixedWidth
                             size="lg"
@@ -126,7 +126,7 @@ const ContextButton: React.FC<{
                     <Text className={classes.buttonTitleText}>
                       {button.type === "search" && handleChange && search !== undefined?
                         <SearchInput option={option} handleChange={handleChange} search={search}/> :
-                        ReactMarkdown components={MarkdownComponents}>{button.title || buttonKey}</ReactMarkdown>
+                        <ReactMarkdown components={MarkdownComponents}>{button.title || buttonKey}</ReactMarkdown>
                       }
                     </Text>
                   </Group>
