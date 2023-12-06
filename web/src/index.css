@@ -63,7 +63,7 @@ code {
   background-color: #c0392b;
 }
 
-.mantine-Modal-modal, .mantine-Button-root, .mantine-Input-input, .mantine-HoverCard-dropdown  {
+.mantine-Modal-modal, .mantine-Stack-root>.mantine-Button-root, .mantine-Input-input, .mantine-HoverCard-dropdown  {
   background-color: #1e1e1ef9;
 }
 
