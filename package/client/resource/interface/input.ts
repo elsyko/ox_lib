@@ -1,4 +1,4 @@
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
+import type { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 type Icon = IconName | [IconName, IconPrefix];
 
@@ -63,6 +63,7 @@ interface SelectProps extends BaseInput {
   disabled?: boolean;
   default?: string | string[];
   clearable?: boolean;
+  searchable?: boolean;
 }
 
 interface SliderProps extends BaseInput {
